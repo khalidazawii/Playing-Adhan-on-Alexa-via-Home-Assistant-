@@ -1,6 +1,7 @@
 # 🕌 Alexa Adhan Automation for Home Assistant
 
 A reliable and smart automation to play the **Adhan** (or any audio file) on Amazon Alexa devices using Home Assistant. This project bypasses common Alexa limitations (like SSL requirements and audio format restrictions) and includes a feature to restore the volume level after the Adhan finishes.
+ تشغيل الأذان (او أي مقطع صوتي) في أوقات الصلاة الصحيحة، مع ميزة حفظ مستوى صوت أليكسا وإعادته لوضعه الطبيعي بعد انتهاء الأذان.
 
 ---
 
