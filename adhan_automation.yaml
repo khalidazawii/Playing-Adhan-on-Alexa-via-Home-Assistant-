@@ -1,0 +1,47 @@
+alias: Prayer Time Adhan Alexa
+description: تشغيل الأذان على جميع أجهزة أليكسا وإعادة الحالة بعده
+triggers:
+  - trigger: time
+    at:
+      - sensor.islamic_prayer_times_fajr_prayer
+      - sensor.islamic_prayer_times_dhuhr_prayer
+      - sensor.islamic_prayer_times_asr_prayer
+      - sensor.islamic_prayer_times_maghrib_prayer
+      - sensor.islamic_prayer_times_isha_prayer
+actions:
+  # 1. حفظ الحالة الحالية للأجهزة (أخذ لقطة لمستوى الصوت الحالي)
+  - action: scene.create
+    data:
+      scene_id: before_adhan_state
+      snapshot_entities:
+        - media_player.your_alexa_device # استبدله باسم جهازك
+
+  # 2. ضبط مستوى صوت الأذان
+  - action: media_player.volume_set
+    target:
+      entity_id:
+        - media_player.your_alexa_device # استبدله باسم جهازك
+    data:
+      volume_level: 0.4
+
+  # 3. تشغيل الأذان باستخدام تقنية SSML (الرابط يجب أن يكون HTTPS)
+  - action: notify.alexa_media
+    data:
+      target:
+        - media_player.your_alexa_device # استبدله باسم جهازك
+      data:
+        type: tts
+      message: |
+        <speak>
+          <audio src='https://YOUR_DUCKDNS_URL/local/YOUR_Song.mp3'/>
+        </speak>
+
+  # 4. انتظار انتهاء الأذان (عدل الوقت حسب طول ملفك الصوتي)
+  - delay: "00:01:40"
+
+  # 5. استعادة الحالة السابقة (إرجاع مستوى صوت أليكسا القديم)
+  - action: scene.turn_on
+    target:
+      entity_id: scene.before_adhan_state
+
+mode: restart
